@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/AskPermission.unity
+    guid: 697fbb8ee9a9f0d46847ffb8b4b249ee
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 0d66ea6463db899419852b4e0dedd588
+  - enabled: 1
+    path: Assets/Scenes/ServerClient/ServerLauncherScene.unity
+    guid: 5a2e1cf146186cd43bc8e13d19989fb3
+  - enabled: 1
+    path: Assets/Scenes/ServerClient/ConnectRoom1.unity
+    guid: df48e9b20a0ae6245807a23bd7e01dd4
+  - enabled: 1
+    path: Assets/Scenes/ServerClient/ConnectRoom2.unity
+    guid: 5c2b490059a6d9644a7579622095afd2
+  m_configObjects: {}
