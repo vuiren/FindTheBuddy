@@ -19,6 +19,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Tooltip("The UI Label to inform the user that the connection is in progress")]
     [SerializeField]
     private GameObject progressLabel;
+
+    [SerializeField]
+    string roomName;
     #endregion
 
 
@@ -89,7 +92,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (isConnecting)
         {
             // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-            PhotonNetwork.JoinRandomRoom();
+           // PhotonNetwork.JoinRandomRoom();
+            PhotonNetwork.JoinRoom(roomName);
             isConnecting = false;
         }
 
@@ -105,7 +109,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         isConnecting = false;
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
+	public override void OnJoinRoomFailed(short returnCode, string message)
+	{
+        Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+
+        // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
+        PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+    }
+
+	public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
@@ -129,5 +141,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetRoomName(string roomName)
+	{
+        this.roomName = roomName;
+	}
     #endregion
 }
