@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ServerClient/ServerLauncherScene.unity
     guid: 5a2e1cf146186cd43bc8e13d19989fb3
-  - enabled: 1
-    path: Assets/Scenes/ServerClient/ConnectRoom1.unity
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/d35553369f18d654db665ab5c0b27aaa
     guid: d35553369f18d654db665ab5c0b27aaa
   - enabled: 1
     path: Assets/Scenes/ServerClient/ConnectRoom2.unity
     guid: cc4ed6e0010deaa42a143b70647bc66c
+  - enabled: 1
+    path: Assets/Scenes/ServerClient/ConnectRoom1.unity
+    guid: 45769f45319f4dc4089799305a8d0106
   m_configObjects: {}
