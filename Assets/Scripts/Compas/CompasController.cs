@@ -12,27 +12,84 @@ public class CompasController : MonoBehaviour
     [SerializeField]
     Transform compasSprite;
 
+    [SerializeField]
+    string fakeSelfData;
+
     bool data1Received;
     bool data2Received;
 
+    [SerializeField]
+    bool fake;
+
+    float targetAngle;
+
+    [SerializeField]
+    float smoothSpeed;
+
 	private void Update()
 	{
+        SmoothAngle();
+
+        if (!data1Received || !data2Received) return;
+
+        if (fake)
+		{
+            SetFakeAngle();
+            return;
+		}
+
         if (!data1Received || !data2Received) return;
         SetAngle();
 	}
 
+	private void SmoothAngle()
+	{
+        var euler = compasSprite.rotation.eulerAngles;
+
+        compasSprite.rotation = Quaternion.Lerp(compasSprite.rotation, Quaternion.Euler(euler.x, euler.y, targetAngle), smoothSpeed);
+    }
+
+    private void SetFakeAngle()
+	{
+        var euler = compasSprite.rotation.eulerAngles;
+        var angle = GetFakeAngle();
+        targetAngle = (float)angle;
+       // compasSprite.rotation = Quaternion.Euler(euler.x, euler.y, (float)angle);
+    }
+
 	private void SetAngle()
 	{
         var euler = compasSprite.rotation.eulerAngles;
-        var angle = GetAngle();
-        compasSprite.rotation = Quaternion.Euler(euler.x, euler.y, (float)angle);
+        var angle = GetFakeAngle();
+        targetAngle = (float)angle;
+        //compasSprite.rotation = Quaternion.Euler(euler.x, euler.y, (float)angle);
 	}
 
-	public void GetOwnDataInfo(LocationInfo guyInfo)
+    public double GetFakeAngle()
+    {
+        var buddyCords1 = fakeSelfData.Split(' ');
+        var buddy1Latitude = float.Parse(buddyCords1[0], CultureInfo.InvariantCulture.NumberFormat);
+        var buddy1Longitude = float.Parse(buddyCords1[1], CultureInfo.InvariantCulture.NumberFormat);
+
+        var buddyCords2 = guyInfo2.Split(' ');
+        var buddy2Latitude = float.Parse(buddyCords2[0], CultureInfo.InvariantCulture.NumberFormat);
+        var buddy2Longitude = float.Parse(buddyCords2[1], CultureInfo.InvariantCulture.NumberFormat);
+
+        var angle = AngleFromCoordinate(buddy1Latitude, buddy1Longitude, buddy2Latitude, buddy2Longitude);
+        return angle;
+    }
+
+    public void GetOwnDataInfo(LocationInfo guyInfo)
 	{
         guyInfo1 = guyInfo;
         data1Received = true;
 	}
+
+    public void GetOwnDataInfo(string guyInfo)
+    {
+        fakeSelfData = guyInfo;
+        data1Received = true;
+    }
 
     public void GetSecondGuyInfo(string info)
 	{
